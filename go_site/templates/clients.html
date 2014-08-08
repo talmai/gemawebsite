@@ -1,0 +1,28 @@
+{{define "clients"}}
+{{template "header" .}}
+	<link rel="stylesheet" media="screen" href="/assets/stylesheets/clients.css">
+	<script type="text/javascript">
+		function initDocument() {
+			$("#clients_menu_option").addClass("current_page");
+		}
+				
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<div id="oc_c">
+		<div id="clr" style="height:153px"></div>
+		<div id="oc_hdr">Clientes</div>
+		<div id="ccc">
+
+			{{with .Clients}}
+				{{range $idx, $cli := .}}
+					<div id="c_{{$idx | add}}">
+						<img src="/assets/images/client/{{$cli.Id}}/{{$cli.Image}}" alt="{{$cli.Name}}">
+					</div>
+				{{end}}
+			{{end}}
+
+		</div>
+	</div>	
+{{template "footer" .}}
+{{end}}

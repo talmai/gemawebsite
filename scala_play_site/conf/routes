@@ -1,0 +1,23 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/									controllers.Application.index
+GET		/index								controllers.Application.index
+GET		/about								controllers.Application.about
+GET		/clients							controllers.Application.clients
+GET		/portfolio							controllers.Application.portfolio(typeId : Long = 1, projectId : Option[Long] = None)
+GET		/portfolio/:typeId					controllers.Application.portfolio(typeId : Long, projectId : Option[Long] = None)
+GET		/portfolio/:typeId/:projectId		controllers.Application.portfolio(typeId: Long, projectId : Option[Long])
+GET		/services							controllers.Application.services
+GET		/contact							controllers.Application.contact
+POST	/contactSubmit						controllers.Application.contactSubmit
+GET		/browser							controllers.Application.browser
+GET		/heatmap							controllers.Application.heatmap
+
+# Map static resources from the /public folder to the /assets URL path
+GET		/assets/*file						controllers.Assets.at(path="/public", file)
+
+# Static files with paths that cannot be changed
+GET		/assinaturas/*file					controllers.Assets.at(path="/public", file)

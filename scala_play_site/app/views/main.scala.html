@@ -1,0 +1,158 @@
+@(title: String)(content: Html)
+
+@* <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"> *@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width = 1150">
+		<title>@title</title>
+		<!-- CSS-->
+		<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+		<!-- JS -->
+		<script src="@routes.Assets.at("javascripts/jquery-1.8.0.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/gema.js")" type="text/javascript"></script>
+		<!--[if IE]>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+		<![endif]-->
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			function initDocumentMain() {
+/*				
+				if ($.browser.chrome){
+					$("#foot").css("left", "-1px");
+					$("#cntc").css("top", "0px");
+					$("#cntc #lone").css("top", "0px").css("left", "0px");
+					$("#cntc #ltwo").css("top", "0px").css("left", "0px");
+					$("#cntc #lthree").css("top", "0px").css("left", "0px");
+					$("#dtls").css("top", "0px");
+					$("#dtls #lone").css("top", "0px").css("left", "0px");
+					$("#dtls #ltwo").css("top", "0px").css("left", "0px");
+					$("#dtls #lthree").css("top", "0px").css("left", "0px");
+
+					$("#oc_c").css("height", parseInt($("#oc_c").css("height").split("px")[0])-130);
+					$("#oc_c").css("top", parseInt($("#oc_c").css("top").split("px")[0])+130);
+					$("#clr").hide();
+					$("#foot").css("top", parseInt($("#foot").css("top").split("px")[0])+130);
+				}
+*/
+			}
+
+			// bind documentReady to the ready() event in jQuery
+			$(document).ready(initDocumentMain);
+
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-36684034-1']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+			
+			(function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			  if (d.getElementById(id)) return;
+			  js = d.createElement(s); js.id = id;
+			  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+			  fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+	</head>
+	<body>
+@* ------------------------------------------------ *@
+@* -                    header                    - *@
+@* ------------------------------------------------ *@
+		<div id="fb-root"></div>
+		<div id="nav">
+			<div id="elmts"></div>
+			<div id="logo"><a href="/"></a></div>
+			<div id="vp">
+				<a href="/index" id="index_menu_option">Home</a>
+				<a href="/about" id="about_menu_option">Sobre nós</a>
+				<a href="/clients" id="clients_menu_option">Clientes</a>
+				<a href="/portfolio" id="portfolio_menu_option">Portifólio</a>
+				<a href="/services" id="services_menu_option">Serviços</a>
+				<a href="/contact" id="contact_menu_option">Fale conosco</a>
+				<div class="fb-like" style="float:right;" data-href="https://www.facebook.com/gemaestudiodeideias" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div>
+			</div>
+		</div>
+@* ------------------------------------------------- *@
+@* -                    content                    - *@
+@* ------------------------------------------------- *@
+		@content
+@* ------------------------------------------------ *@
+@* -                    footer                    - *@
+@* ------------------------------------------------ *@
+		<div id="foot">
+			<div id="cntc">
+				<div id="lone">
+					<div id="spcr"></div>
+					<div id="hdr">New York - NY</div>
+					<div id="numb">+1 (419) 825.6241</div>
+				</div>
+				<div id="ltwo">
+					<div id="spcr"></div>
+					<div id="hdr">Curitiba - PR</div>
+					<div id="numb">+55 (41) 8825.6750</div>
+				</div>
+				<div id="lthree">
+					<div id="spcr"></div>
+					<div id="hdr">Salvador - BA</div>
+					<div id="numb">+55 (71) 9165.6392</div>
+				</div>
+			</div>
+			<div id="dtls">
+				<div id="lone">
+					<div id="hdr">O Estúdio Gema</div>
+					<div id="numb">
+						Somos um estúdio de design criativo e inovador, que oferece serviços integrados de comunicação adaptados à necessidade de sua 
+						empresa. Aliamos a excelência da comunicação com a criatividade e a inteligência do design.
+					</div>
+				</div>
+				<div id="ltwo">
+					<div id="hdr">Serviços</div>
+					<div id="numb">
+						<UL>
+							<LI>Websites 
+							<LI>Mobile Apps 
+							<LI>Identidade Visual
+							<LI>Ilustração
+							<LI>Folders
+						</UL>
+						<UL class="right">
+							<LI>Banners 
+							<LI>Editoriais 
+							<LI>Embalagens
+							<LI>Flyers
+							<LI>Impressos
+						</UL>
+					</div>
+				</div>
+				<!--
+				<div id="ltwo">
+					<div id="hdr">Nosso endereço</div>
+					<div id="numb">
+						<img src="http://maps.googleapis.com/maps/api/staticmap?center=Trade+Center+Torre+Norte+Sala+2211+-+Av.+Tancredo+Neves,+1632+-+Caminho+das+Árvore,+Salvador&zoom=15&size=288x120&sensor=false&key=AIzaSyAuXEEdlYPKW-KYrDupd04_stQQeDlIrIo">
+						Trade Center Torre Norte Sala 2211 -
+						Av. Tancredo Neves, 1632 - Caminho das Árvore, Salvador
+					</div>
+				</div>
+				//-->
+				<div id="lthree">
+					<div id="hdr">Siga-nos</div>
+					<div id="fb"><a href="https://www.facebook.com/gemaestudiodeideias"></a></div>
+					<!--
+					<div id="tw"><a href="TW"></a></div>
+					//-->
+					<div id="bh"><a href="http://www.behance.net/estudiogema"></a></div>
+				</div>
+			</div>
+			<div id="hr_line" style="top: 246px;"></div>
+			<div id="cr">&copy;copyright Gema Comunicação</div>
+		</div>
+	</body>
+</html>

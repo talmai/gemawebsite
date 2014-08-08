@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo sass --watch /usr/local/eclipse-scala-indigo-SR2/workspace/gema/app/assets:/usr/local/eclipse-scala-indigo-SR2/workspace/gema/public/stylesheets/ --style compressed

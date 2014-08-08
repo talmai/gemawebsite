@@ -1,0 +1,234 @@
+@(listClients: List[com.gemaestudio.Client], listProjects: List[com.gemaestudio.Project])
+
+@main("gema - estúdio de idéias") {
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/index.css")">
+	<script type="text/javascript">
+		var currentArrowPositions = [-377, -162, 93, 388];
+		var clients = {"highlighted": [
+			@for(client <- listClients ) {
+				@client ,
+			}
+		]};
+
+		// preload images in background...
+		@for(client <- listClients ) {
+			$('<img/>')[0].src = "@routes.Assets.at("images/client/")@{client.id}/@{client.main_page_banner_image}";
+		}
+		
+		var clientToHighlight = null;
+
+		function updateClientHighlightData(index, buffer){
+			clientToHighlight = clients.highlighted[index];
+
+			// clone existing DOMs from #da to #da_hidden (to be exact: from "#da" to "#da"+bufferIdAppend
+			var bufferIdAppend = "_hidden";
+			if (buffer) $("#da"+bufferIdAppend).html("").append($("#da").clone(false).find("*[id]").each(function() { $(this).attr("id", $(this).attr("id") + bufferIdAppend); }));
+
+			var newUrl = "url(@routes.Assets.at("images/client/")" + clientToHighlight.id + "/" + cleanUpSome(clientToHighlight.main_page_banner_image) + ")";
+			$("#img"+(buffer?bufferIdAppend:"")).css("backgroundImage", "url(@routes.Assets.at("images/client/")" + clientToHighlight.id + "/" + cleanUpSome(clientToHighlight.main_page_banner_image) + ")");
+
+			// ----- title ------ //
+			var titleSpan = document.createElement("span");
+			$(titleSpan).css("fontSize", "18pt");
+			$(titleSpan).css("color", cleanUpSome(clientToHighlight.title).split("||")[0]);
+			titleSpan.innerHTML = cleanUpSome(clientToHighlight.title).split("||")[1];
+			$("#tlt"+(buffer?bufferIdAppend:"")).html("").append(titleSpan);
+			// ----- description ------ //
+			var descSpan = document.createElement("span");
+			$(descSpan).css("fontSize", "12pt");
+			$(descSpan).css("fontWeight", "500");
+			$(descSpan).css("color", cleanUpSome(clientToHighlight.description).split("||")[0]);
+			descSpan.innerHTML = cleanUpSome(clientToHighlight.description).split("||")[1];
+			$("#dsc"+(buffer?bufferIdAppend:"")).html("").append(descSpan);
+			// ----- line one ------ //
+			var line1Span = document.createElement("span");
+			$(line1Span).css("fontSize", "12pt");
+			$(line1Span).css("background", cleanUpSome(clientToHighlight.main_page_content_line_one).split("||")[0]); // <-- IE 8 requires background and not backgroundColor. It seems to work on all other browsers, so...
+			$(line1Span).css("color", "#FFFFFF");
+			line1Span.innerHTML = cleanUpSome(clientToHighlight.main_page_content_line_one).split("||")[1];
+			$("#lone"+(buffer?bufferIdAppend:"")).html("").append(line1Span);
+			// ----- line two ------ //
+			var line2Span = document.createElement("span");
+			$(line2Span).css("fontSize", "12pt");
+			$(line2Span).css("background", cleanUpSome(clientToHighlight.main_page_content_line_two).split("||")[0]); // <-- IE 8 requires background and not backgroundColor. It seems to work on all other browsers, so...
+			$(line2Span).css("color", "#FFFFFF");
+			line2Span.innerHTML = cleanUpSome(clientToHighlight.main_page_content_line_two).split("||")[1];
+			$("#ltwo"+(buffer?bufferIdAppend:"")).html("").append(line2Span);
+			// ----- line three ------ //
+			var line3Span = document.createElement("span");
+			$(line3Span).css("fontSize", "12pt");
+			$(line3Span).css("background", cleanUpSome(clientToHighlight.main_page_content_line_three).split("||")[0]); // <-- IE 8 requires background and not backgroundColor. It seems to work on all other browsers, so...
+			$(line3Span).css("color", "#FFFFFF");
+			line3Span.innerHTML = cleanUpSome(clientToHighlight.main_page_content_line_three).split("||")[1];
+			$("#lthree"+(buffer?bufferIdAppend:"")).html("").append(line3Span);
+		}
+		
+		var currentClientIndex = 0;
+		var updateDataTimeout = null;
+		var timeoutSpan = 6000;
+		var blockClicks = false;
+		function reloadClientHighlightData(){
+			// identify where arrow is and update the image
+			$.each(currentArrowPositions, function(index, value) { 
+				if (value === parseInt($("#arw").css("left").split("px")[0])){
+					// timeout to move arrow and reload image
+					if (index++ === 3) index = 0;
+					currentClientIndex = index;
+					updateDataTimeout = setTimeout(function(){
+						userSelectedHighlight(currentClientIndex);
+					}, timeoutSpan);
+					return;
+				}
+			});
+		}
+		
+		function userSelectedHighlight(index){
+			clearTimeout(updateDataTimeout);
+			updateDataTimeout = null;
+
+			if (blockClicks){
+				updateDataTimeout = setTimeout(function() {
+						userSelectedHighlight(index);
+				}, 500);
+				return;
+			}
+
+			blockClicks = true;
+
+			if (index < 0) index = 3;
+			if (index > 3) index = 0;
+			
+			// start animation process (time = 800)
+			$("#arw").animate({ left: currentArrowPositions[index] }, 400, function(){
+				$(".selected_mask").removeClass("selected_mask").addClass("unselected_mask");
+				$("#" + clientToHighlight.id  + "_mask").removeClass("unselected_mask").addClass("selected_mask");
+			});
+			// load buffer
+			updateClientHighlightData(index, true);
+			// fade out main...
+			$("#da").animate({ opacity: 0.1 }, 200, function(){
+				// transfer from buffer...
+				$("#da").html("").append($("#da_hidden").find("*[id]").each(function() { $(this).attr("id", $(this).attr("id").split("_hidden")[0]); }));
+				$("#da").animate({ opacity: 1.0 }, 600, function(){
+					reloadClientHighlightData();
+					blockClicks = false;
+				});
+			});
+			
+		}
+
+		function backOne(){
+			// identify where arrow is and update the image
+			$.each(currentArrowPositions, function(index, value) { 
+				if (value === parseInt($("#arw").css("left").split("px")[0])){
+					userSelectedHighlight(index-1);
+					return;
+				}
+			});
+		}
+
+		function forwardOne(){
+			// identify where arrow is and update the image
+			$.each(currentArrowPositions, function(index, value) { 
+				if (value === parseInt($("#arw").css("left").split("px")[0])){
+					userSelectedHighlight(index+1);
+					return;
+				}
+			});
+		}
+		
+		function openCase(projectId){
+			if (projectId == -1 && clientToHighlight != null) projectId = cleanUpSome(clientToHighlight.project_id);
+			window.location = "/portfolio/-1/" + projectId;
+		}
+		
+		function initDocument() {
+			$("#index_menu_option").addClass("current_page");
+			$('.clickable_project_listing').find('#this_mask').stop().fadeTo(300, 0);
+			$('.clickable_project_listing').hover(
+				function() {
+					$(this).find('#this_mask').stop().fadeTo(300, 1);
+				},
+				function() {
+					$(this).find('#this_mask').stop().fadeTo(300, 0);
+				}
+			 );
+			userSelectedHighlight(currentClientIndex);
+			
+			/*
+			if ($.browser.chrome){
+				$("#index_cl").css("left", "-1px");
+//				$("#index_pl #hdr").css("left", "-353px");
+				$("#index_pl #plb").css("top", "50px");
+				$("#index_pl #plb #p_0").css("left", "-353px");
+				$("#index_pl #plb #p_0").css("top", "19px");
+				$("#index_pl #plb #p_1").css("top", "-10px");
+				$("#index_pl #plb #p_2").css("top", "-39px");
+				$("#index_pl #plb #p_3").css("top", "-69px");
+				$("#index_cl #da #rgt").css("top", "-418px");
+			}
+			*/
+			
+		}
+
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<div id="index_cl">
+		<div id="clr" style="height:105px"></div>
+@* ------------------------------------------------ *@
+@* -               header banner                  - *@
+@* ------------------------------------------------ *@
+		<div id="da">
+			<div id="lft" onclick="backOne();"></div>
+			<div id="img"></div>
+			<div id="tlt"></div>
+			<div id="dsc"></div>
+			<div id="lone"></div>
+			<div id="ltwo"></div>
+			<div id="lthree"></div>
+			<div id="lnk" onclick="openCase(-1); return false;"><a href="">Conheça este case</a></div>
+			<div id="rgt" onclick="forwardOne();"></div>
+		</div>
+		<div id="da_hidden">
+		</div>
+@* ------------------------------------------------ *@
+@* -                 client listing               - *@
+@* ------------------------------------------------ *@
+		<div id="clb">
+			<div id="arw"></div>
+			@for((client,idx) <- listClients.view.zipWithIndex ) {
+				<div id="c_@idx" onClick="userSelectedHighlight(@idx);">
+					<a href="#">
+						<span id="@{client.id}_mask" class="unselected_mask"></span>
+						<img src="/assets/images/client/@client.id/@client.main_page_bar_image">
+					</a>
+				</div>
+			}
+		</div>
+	</div>
+@* ------------------------------------------------ *@
+@* -               project listing                - *@
+@* ------------------------------------------------ *@
+	<div id="index_pl">
+		<div id="hdr">Outros Projetos</div>
+		<div id="plb">
+			@for((project,idx) <- listProjects.view.zipWithIndex ) {
+				<div id="p_@idx" onClick="userSelectedHighlight(@idx);">
+					<div id="img" class="clickable_project_listing">
+						<a href="/portfolio/-1/@{project.id}">
+							<span id="this_mask" class="hover_mask"></span>
+							<span class="frame_mask"></span>
+							<img src="/assets/images/project/@project.id/@project.image">
+						</a>
+					</div>
+					<div id="tlt">@project.name</div>
+					<div id="dsc">@project.main_page_description </div> 
+@* ------------------------------------------------ *@
+@*					<div id="dsc">@{project.description.getOrElse("").slice(0, 100).padTo(103,".")} </div> *@
+@* ------------------------------------------------ *@
+				</div>
+			}
+		</div>
+	</div>
+}

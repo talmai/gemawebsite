@@ -1,0 +1,83 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width = 1150">
+		<title>{{.Title}}</title>
+		<!-- CSS-->
+		<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
+		<link rel="stylesheet" media="screen" href="/assets/stylesheets/main.css">
+		<!-- JS -->
+		<script src="/assets/javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+		<script src="/assets/javascripts/gema.js" type="text/javascript"></script>
+		<!--[if IE]>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+		<![endif]-->
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			function initDocumentMain() {
+/*				
+				if ($.browser.chrome){
+					$("#foot").css("left", "-1px");
+					$("#cntc").css("top", "0px");
+					$("#cntc #lone").css("top", "0px").css("left", "0px");
+					$("#cntc #ltwo").css("top", "0px").css("left", "0px");
+					$("#cntc #lthree").css("top", "0px").css("left", "0px");
+					$("#dtls").css("top", "0px");
+					$("#dtls #lone").css("top", "0px").css("left", "0px");
+					$("#dtls #ltwo").css("top", "0px").css("left", "0px");
+					$("#dtls #lthree").css("top", "0px").css("left", "0px");
+
+					$("#oc_c").css("height", parseInt($("#oc_c").css("height").split("px")[0])-130);
+					$("#oc_c").css("top", parseInt($("#oc_c").css("top").split("px")[0])+130);
+					$("#clr").hide();
+					$("#foot").css("top", parseInt($("#foot").css("top").split("px")[0])+130);
+				}
+*/
+			}
+
+			// bind documentReady to the ready() event in jQuery
+			$(document).ready(initDocumentMain);
+
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-36684034-1']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+			
+			(function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			  if (d.getElementById(id)) return;
+			  js = d.createElement(s); js.id = id;
+			  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+			  fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+	</head>
+	<body>
+<!-- 
+@* ------------------------------------------------ *@
+@* -                    header                    - *@
+@* ------------------------------------------------ *@
+//-->
+		<div id="fb-root"></div>
+		<div id="nav">
+			<div id="elmts"></div>
+			<div id="logo"><a href="/"></a></div>
+			<div id="vp">
+				<a href="/index" id="index_menu_option">Home</a>
+				<a href="/about" id="about_menu_option">Sobre nós</a>
+				<a href="/clients" id="clients_menu_option">Clientes</a>
+				<a href="/portfolio" id="portfolio_menu_option">Portifólio</a>
+				<a href="/services" id="services_menu_option">Serviços</a>
+				<a href="/contact" id="contact_menu_option">Fale conosco</a>
+				<div class="fb-like" style="float:right;" data-href="https://www.facebook.com/gemaestudiodeideias" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div>
+			</div>
+		</div>
+{{end}}

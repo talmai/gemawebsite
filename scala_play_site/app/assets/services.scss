@@ -1,0 +1,49 @@
+@import "variables_mixin";
+@import "internal";
+@import "about";
+@import "portfolio";
+
+#oc_c {
+	// ----------------------------------------------------------
+	// -                 services.scala.html                    -
+	// ----------------------------------------------------------
+
+	#s_hdr {
+		@extend #p_hdr;
+		height: 19px;
+		left: -9px;
+	}
+
+	#s_c {
+		@extend #oc_cnt;
+		top: 110px;
+		height: 530px;
+
+		#tlt {
+			@include margin(auto);
+			@include width_info(540px, 540px, 540px);
+			position: relative;
+			left: -202px;
+			font: {
+				size: 21px;
+				weight: 300;
+				family: $headerFont;
+			}
+			color: $light_grey_text;
+		}
+		
+		#qte {
+			top: 25px;
+		}
+		
+		#ctxt {
+			top: 45px;
+		}
+
+		#cimg {
+			top: -275px;
+			height: 260px;
+		}
+	}
+	
+}

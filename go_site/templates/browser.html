@@ -1,0 +1,74 @@
+{{define "browser"}}
+{{template "header" .}}
+	<script type="text/javascript">
+		function initDocument() {
+		}
+
+		function openChrome(){
+			window.location = "http://www.google.com/chrome";
+		}
+
+		function openFirefox(){
+			window.location = "http://www.getfirefox.net";
+		}
+		
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<style media="screen" type="text/css">
+		#ie001{
+			 background-image: url("/assets/images/browser/pagina_ie_01.png");
+			    background-position: 0 center;
+			    background-repeat: no-repeat;
+			    height: 116px;
+			    left: 4px;
+			    margin: auto;
+			    max-width: 400px;
+			    min-width: 400px;
+			    position: relative;
+			    top: 7px;
+			    width: 400px;
+			    z-index: 11;
+		}
+
+		#ie002{
+			 background-image: url("/assets/images/browser/pagina_ie_02.png");
+			    background-position: 0 center;
+			    background-repeat: no-repeat;
+			    height: 104px;
+			    left: -98px;
+			    margin: auto;
+			    max-width: 200px;
+			    min-width: 200px;
+			    position: relative;
+			    top: 7px;
+			    width: 200px;
+			    z-index: 11;
+			    cursor: pointer;
+		}
+
+		#ie003{
+			 background-image: url("/assets/images/browser/pagina_ie_03.png");
+			    background-position: 0 center;
+			    background-repeat: no-repeat;
+			    height: 104px;
+			    left: 111px;
+			    margin: auto;
+			    max-width: 200px;
+			    min-width: 200px;
+			    position: relative;
+			    top: -97px;
+			    width: 200px;
+			    z-index: 11;
+			    cursor: pointer;
+		}
+		
+	</style>
+	<div id="oc_c">
+		<div id="clr" style="height:133px"></div>
+		<div id="ie001"></div>
+		<div id="ie002" onclick="openChrome();"></div>
+		<div id="ie003" onclick="openFirefox();"></div>
+	</div>	
+{{template "footer" .}}
+{{end}}

@@ -1,0 +1,36 @@
+{{define "about"}}
+{{template "header" .}}
+	<link rel="stylesheet" media="screen" href="/assets/stylesheets/about.css">
+	<script type="text/javascript">
+		function initDocument() {
+			$("#about_menu_option").addClass("current_page");
+		}
+
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<div id="oc_c">
+		<div id="clr" style="height:153px"></div>
+		<div id="oc_hdr">Sobre Nós</div>
+		<div id="oc_cnt">
+			<div id="qte">
+			&ldquo;Nem sempre você pode ter o que quer, mas se tentar algumas vezes vai conseguir o que precisa.&rdquo;
+			<br>
+			<span style="font-weight: normal;">The Rolling Stones</span>
+			</div>
+			<div id="ctxt">
+				Somos um estúdio de design criativo e inovador, que oferece serviços integrados de comunicação adaptados à necessidade de sua 
+				empresa. Aliamos a excelência da comunicação com a criatividade e a inteligência do design.
+				<br><br>
+				Oferecemos serviços de design, projetos gráficos, web e desenvolvimento de aplicativos para mobile.
+				<br><br>
+				Com uma equipe composta por profissionais experientes, criativos, talentosos e versáteis. Unimos o nosso Know-how em design e 
+				tecnologia para tornar a sua empresa ainda mais competitiva. 
+			</div>
+			<!--
+			<div id="cimg"></div>
+			//-->
+		</div>
+	</div>
+{{template "footer" .}}
+{{end}}

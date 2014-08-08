@@ -1,0 +1,24 @@
+@(listClients: List[com.gemaestudio.Client])
+
+@main("gema - estúdio de idéias") {
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/clients.css")">
+	<script type="text/javascript">
+		function initDocument() {
+			$("#clients_menu_option").addClass("current_page");
+		}
+				
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<div id="oc_c">
+		<div id="clr" style="height:153px"></div>
+		<div id="oc_hdr">Clientes</div>
+		<div id="ccc">
+			@for((client,idx) <- util.Random.shuffle(listClients).take(12).view.zipWithIndex ) {
+				<div id="c_@{idx+1}">
+					<img src="/assets/images/client/@client.id/@client.image" alt="@client.name">
+				</div>
+			} 
+		</div>
+	</div>	
+}

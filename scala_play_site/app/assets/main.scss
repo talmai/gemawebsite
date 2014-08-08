@@ -1,0 +1,259 @@
+@import "variables_mixin";
+
+// ---------------------------------------------------------
+// -                    main.scala.html                    -
+// ---------------------------------------------------------
+* {
+	@include margin(0px);
+	border: {
+		width: 0pt;
+		style: none;
+	}
+	font: {
+		family: $bodyFont;
+	}
+	padding: 0;
+}
+
+body {
+	background: {
+		color: $background_color;
+	}
+	overflow-x: hidden;
+}
+
+#nav {
+	@include margin();
+	@include background("topo.png");
+	@include width_info(#{$min_universal_nav_width}px, 1601px, #{$min_universal_nav_width}px); // <- width. will be updated through jquery depending on screen size
+	height: 90px;
+	position: absolute; // fixed also works, but breaks original idea behind UI
+	width: 100%;
+	z-index: 3;
+
+	#elmts {
+		@include margin();
+		@include background("elementos.png");
+		@include width_info(603px, 603px, 603px);
+		position: absolute;
+		left: #{$floating_elements_area_left}px;
+		height: 428px;
+		z-index: 4;
+	}
+
+	#vp {
+		@include margin(auto);
+		left: #{$view_pane_left}px;
+		top: 51px;
+		@include width_info(775px, 775px, 775px);
+		position: absolute;
+		z-index: 8;
+		a {
+			color: $dark_grey_text;
+			text-decoration: none;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			-khtml-border-radius: 20px;
+			border-radius: 20px;
+//			&:visited { color: $dark_grey_text; }
+			&:hover {
+				color: $white;
+				background:$orange;
+			}
+			margin: {
+				right: 15px;
+			}
+			padding: {
+				top: 3px;
+				bottom: 3px;
+				left: 10px;
+				right: 10px;
+			}
+		}
+		a.current_page {
+			color: $white;
+			background:$orange;
+		}
+	}
+
+	#logo {
+		@include margin();
+		@include background("logo.png");
+		@include width_info(136px, 136px, 136px);
+		position: absolute;
+	    left: #{480 + $floating_elements_area_left}px;
+	    top: 10px;
+		height: 136px;
+		z-index: 5;
+		a {
+			display: block;
+			height: 100%;
+			width: 100%;
+			text-decoration: none;
+		}
+	}	
+}
+
+#hr_line {
+	@include margin(auto);
+	position: relative;
+	@include background("hr_line_image.png");
+	@include width_info(945px, 945px, 945px);
+	height: 5px;
+	top: 19px;
+	left: 8px;
+	z-index: 12;
+}
+
+#foot {
+	@include margin(auto);
+	@include width_info();
+	height: 460px;
+	background:$footer_background_color;
+	
+	#cntc {
+		@include margin(auto);
+		@include width_info(960px, 960px, 960px);
+		height: 80px;
+		left: 7px;
+		position: relative;
+		
+		#lone {
+			@include width_info(320px, 320px, 320px);
+			height: 100px;
+			float: left;
+			background:$grey_tone_001;
+			
+			#spcr {
+				@include margin(10px);
+				position: relative;
+				@include background("footer_contact_spacer.png");
+				@include width_info(59px, 59px, 59px);
+				height: 60px;
+			    top: 10px;
+			    left: 0px;
+				z-index: 12;
+				float: left;
+			}
+
+			#hdr {
+				position: relative;
+				top: 27px;
+				left: 10px;
+				font: {
+					size: 22px;
+					weight: 300;
+				}
+				color: $light_grey_text;
+			}
+
+			#numb {
+				@extend #hdr;
+				color: $background_color;
+				font: {
+					size: 20px;
+					weight: 300;
+				}
+				ul {
+					line-height: 20px;
+					margin: {
+						left: 15px;
+					}
+				}
+				ul.right{
+					margin: {
+						top: -100px;
+						left: 150px;
+					}
+				}
+			}
+		}
+
+		#ltwo {
+			@extend #lone;
+			background:$grey_tone_002;
+		}
+
+		#lthree {
+			@extend #ltwo;
+			background:$grey_tone_003;
+		}
+	}
+	
+	#dtls {
+		@extend #cntc;
+
+		#lone {
+			height: 200px;
+			background:$footer_background_color;
+			top: 40px;
+			
+			#hdr {
+				top: 35px;
+			}
+
+			#numb {
+				@include width_info(288px, 288px, 288px);
+				top: 56px;
+				position: relative;
+				font: {
+					size: 13px;
+				}
+				color: $light_grey_text;
+				img {
+					padding: {
+						bottom: 10px;
+					}
+				}
+			}
+		}
+		
+		#lthree {
+			
+			#fb {
+				@include margin(10px);
+				position: relative;
+				top: 44px;
+				left: -5px;
+				@include background("footer_facebook_icon.png");
+				@include width_info(132px, 132px, 132px);
+				height: 32px;
+				z-index: 5;
+				a {
+					display: block;
+					height: 100%;
+					width: 100%;
+					text-decoration: none;
+				}
+			}
+			
+			#tw {
+				@include background("footer_twitter_icon.png");
+				@extend #fb;
+			}
+
+			#bh {
+				@include background("footer_behance_icon.png");
+				@extend #fb;
+			}
+		}
+	}
+}
+
+#cr {
+	@include margin(auto);
+	position: relative;
+	@include width_info(935px, 935px, 935px);
+	height: 30px;
+	top: 116px;
+	left: 25px;
+	color: $light_grey_text;
+	font: {
+		size: 14px;
+		weight: 300;
+	}
+}
+
+#clr {
+	@include clear_nav(115px);
+}

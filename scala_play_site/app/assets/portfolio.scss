@@ -1,0 +1,265 @@
+@import "variables_mixin";
+@import "internal";
+@import "about";
+
+#oc_c {
+	// ----------------------------------------------------------
+	// -                  portfolio.scala.html                  -
+	// ----------------------------------------------------------
+
+	#p_hdr {
+		@extend #oc_cnt;
+		height: 19px;
+		left: -9px;
+
+		#p_menu {
+			@include width_info(833px, 833px, 833px);
+			position: relative;
+			height: 27px;
+			z-index: 8;
+			left: -57px;
+			top: 20px;
+			font: {
+				size: 16px;
+			}
+			margin: {
+				right: auto;
+				left: auto;
+				top: 3px;
+			}
+
+			a {
+				color: $dark_grey_text;
+				text-decoration: none;
+				-moz-border-radius: 20px;
+				-webkit-border-radius: 20px;
+				-khtml-border-radius: 20px;
+				border-radius: 20px;
+				&:hover {
+					color: $white;
+					background:$orange;
+				}
+				margin: {
+					right: 5px;
+					left: 10px;
+				}
+				padding: {
+					top: 3px;
+					bottom: 3px;
+					left: 10px;
+					right: 10px;
+				}
+			}
+			a.current_page {
+				color: $white;
+				background:$orange;
+			}
+		}
+	}
+
+	#p_exp {
+		@extend #oc_cnt;
+		height: 708px;
+
+		#p_vp {
+			@include margin(auto);
+			background: $portfolio_description_grey_background;
+			@include width_info(940px, 940px, 940px);
+			position: relative;
+			top: 65px;
+			left: -1px;
+			height: 647px;
+
+			#p_img {
+				@include background("index/portfolio_image_default.png");
+				@include width_info(220px, 220px, 220px);
+				height: 152px;
+				z-index: 12;
+				position: relative;
+			}
+
+			#p_ar {
+				position: relative;
+				@include background("portfolio/current_portfolio_arrow.png");
+				@include width_info(10px, 10px, 10px);
+				height: 150px;
+			    top: -155px;
+			    left: 210px;
+				z-index: 12;
+			}
+
+			#p_tx {
+				position: relative;
+				@include width_info(649px, 649px, 649px);
+				height: 120px;
+				top: -281px;
+				left: 240px;
+				color: dark_grey_text;
+				z-index: 12;
+				font: {
+					size: 14px;
+					weight: 400;
+				}
+			}
+
+			#p_cl {
+				position: relative;
+				@include width_info(30px, 30px, 30px);
+				height: 30px;
+			    top: -422px;
+			    left: 910px;
+				z-index: 12;
+			}
+
+			#p_limg {
+				position: relative;
+				@include width_info(960px, 960px, 960px);
+				height: 500px;
+			    top: -306px;
+				z-index: 12;
+			}
+
+			#p_scrl {
+				position: relative;
+				@include width_info(940px, 940px, 940px);
+				text-align: right;
+				height: 2px;
+			    top: -306px;
+				z-index: 12;
+			}
+			
+			#lft {
+				position: relative;
+				@include background("index/arrow_left.png");
+				@include width_info(19px, 19px, 19px);
+			    top: -600px;
+			    left: 10px;
+			    height: 55px;
+				cursor: pointer;
+			    z-index: 13;
+			}
+
+			#rgt {
+				@extend #lft;
+				@include background("index/arrow_right.png");
+			    left: 910px;
+			    top: -655px;
+			}
+		}
+	}
+	
+	#p_cnt {
+		@extend #oc_cnt;
+		height: 457px;
+		left: -9px;
+
+		#p_1 {
+			@include margin(auto);
+			@include width_info(220px, 220px, 220px);
+			top: 50px;
+			height: 20px;
+			position: relative;
+			left: -355px;
+
+			#p_img {
+				@include margin(auto);
+				position: relative;
+				@include background("index/portfolio_image_default.png");
+				@include width_info(220px, 220px, 220px);
+				height: 150px;
+				z-index: 12;
+	
+				a {
+					display: block;
+					height: 100%;
+					width: 100%;
+					text-decoration: none;
+				}
+	
+				.hover_mask {
+					display:block;
+					position:absolute;
+					@include background("index/portfolio_image_hover_mask.png");
+					@include width_info(220px, 220px, 220px);
+					height: 150px;
+					opacity: 0;
+				}
+	
+				.frame_mask {
+					display:block;
+					position:absolute;
+					@include background("index/portfolio_image_frame_mask.png");
+					@include width_info(220px, 220px, 220px);
+					height: 160px;
+				}
+			}
+		}
+		
+		#p_2 {
+			@extend #p_1;
+			left: -114px;
+			top: 31px;
+		}
+		
+		#p_3 {
+			@extend #p_1;
+			left: 128px;
+			top: 12px;
+		}
+		
+		#p_4 {
+			@extend #p_1;
+			left: 370px;
+			top: -7px;
+		}
+
+		#p_5 {
+			@extend #p_1;
+			left: -355px;
+			top: 145px;
+		}
+
+		#p_6 {
+			@extend #p_1;
+			left: -114px;
+			top: 126px;
+		}
+
+		#p_7 {
+			@extend #p_1;
+			left: 128px;
+			top: 106px;
+		}
+
+		#p_8 {
+			@extend #p_1;
+			left: 370px;
+			top: 87px;
+		}
+		
+		#p_9 {
+			@extend #p_1;
+			left: -355px;
+			top: 239px;
+		}
+
+		#p_10 {
+			@extend #p_1;
+			left: -114px;
+			top: 220px;
+		}
+
+		#p_11 {
+			@extend #p_1;
+			left: 128px;
+			top: 200px;
+		}
+
+		#p_12 {
+			@extend #p_1;
+			left: 370px;
+			top: 181px;
+		}
+		
+	}
+}

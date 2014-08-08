@@ -1,0 +1,27 @@
+@import "variables_mixin";
+
+// ------------------------------------------------------
+// -                    *.scala.html                    -
+// ------------------------------------------------------
+
+#oc_c {
+	@include margin();
+	@include width_info(#{$min_universal_nav_width}px);
+//	height: 390px;
+	width: 100%;
+
+	#oc_hdr {
+		@include margin(auto);
+		position: relative;
+		@include width_info(400px, 400px, 400px);
+	    top: 27px;
+	    left: -274px;
+		z-index: 11;
+		font: {
+			size: 32px;
+			weight: 300;
+			family: $headerFont;
+		}
+		color: $light_grey_text;
+	}
+}

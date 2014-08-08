@@ -1,0 +1,241 @@
+@(typeId: Long, listProjects: List[com.gemaestudio.Project], listProjectTypes: List[com.gemaestudio.ProjectType], projectId: Option[Long])
+
+@main("gema - estúdio de idéias") {
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/portfolio.css")">
+	<script type="text/javascript">
+		var bump = '@projectId';
+		var projects = {"highlighted": [
+			@for(project <- listProjects ) {
+				@project,
+			}
+		]};
+
+		var currentGallery;
+		var updateGalleryTimeout = null;
+		var currentGalleryIndex = null;
+		var originalFootTop = null; // <-- helps deal with Chrome quirks
+		
+		function stopGallery(clearIndex){
+			clearTimeout(updateGalleryTimeout);
+			updateGalleryTimeout = null;
+			if (typeof clearIndex === 'undefined') currentGalleryIndex = 0;
+		}
+		
+		function reloadGallery(){
+			if (currentGallery.length != 0){
+		 		$("#current_galery_" + currentGalleryIndex).attr("src", "/assets/images/portfolio/project_image_indicators_on.png");
+		 		$("#p_limg").find('img').attr('src', currentGallery[currentGalleryIndex]);
+				updateGalleryTimeout = setTimeout(function(){
+					if  (currentGalleryIndex != -1) clearOutPreviousGallery();
+					currentGalleryIndex = (currentGalleryIndex == currentGallery.length-1)?0:(currentGalleryIndex + 1);
+					reloadGallery();
+				}, 6000);
+			}
+		}
+		
+		function clearOutPreviousGallery(){
+			$("#current_galery_" + currentGalleryIndex).attr("src", "/assets/images/portfolio/project_image_indicators_off.png");
+		}
+		
+		function backOne(){
+			stopGallery(-1);
+			clearOutPreviousGallery();
+			if (currentGalleryIndex == 0) currentGalleryIndex = currentGallery.length-1;
+			else currentGalleryIndex -= 1;
+			reloadGallery();
+		}
+		
+		function forwardOne(){
+			stopGallery(-1);
+			clearOutPreviousGallery();
+			if (currentGalleryIndex == currentGallery.length-1) currentGalleryIndex = 0;
+			else currentGalleryIndex += 1;
+			reloadGallery();
+		}
+
+		function jumpToThis(newIndex){
+			stopGallery(-1);
+			clearOutPreviousGallery();
+			currentGalleryIndex = newIndex;
+			reloadGallery();
+		}
+		
+		function getProjectInfo(projectId){
+			var lookingForIndex = 0;
+			// find index within projects array
+			$.each(projects.highlighted, function(idx, value){
+				try {
+					if (projectId === value.id) lookingForIndex = idx;
+				}
+				catch (err) {} // IE for some weird reason loops for an extra attempt, resulting in a nullpointer exception
+			});
+			var cleanedUpProjects = cleanUpSome(projects.highlighted[lookingForIndex].gallery).substr(8).split("prjImg: ");
+			currentGallery = new Array();
+			$.each(cleanedUpProjects, function(idx, value) { 
+				// search for project id
+				if (projectId == cleanUpSome(value.substr(value.indexOf("project:")+8)).split(")")[0])
+				{
+					currentGallery.push("/assets/images/project/"+projectId+"/gallery/"+value.substr(value.indexOf("image:")+6).split(",")[0]);
+					// preload images...
+					$('<img/>')[0].src = "/assets/images/project/"+projectId+"/gallery/"+value.substr(value.indexOf("image:")+6).split(",")[0];
+				}
+			});		
+			var projectObject = { id: projectId, description: cleanUpSome(projects.highlighted[lookingForIndex].description),
+								  gallery: currentGallery
+			};
+			return projectObject;
+		}
+		
+		function expandProject(projectId){
+			var projectData = getProjectInfo(projectId);
+			// update small image on expanded content layer
+			$("#p_cnt").find('img').each(function(index) {
+				if ($(this).attr("id") === projectId){
+			 		$("#p_img").find('img').attr('src', $(this).attr('src'));
+				}
+			});
+	 		// update description
+			$("#p_tx").html(projectData.description);
+			// update scroll area
+			$("#p_scrl").html("");
+			$.each(projectData.gallery, function(idx, value) { 
+				var imgSpan = document.createElement("img");
+				imgSpan.setAttribute('id', "current_galery_"+idx);
+				imgSpan.style.cursor = 'pointer';
+				imgSpan.setAttribute('src', "/assets/images/portfolio/project_image_indicators_off.png");
+				imgSpan.onclick = function(){jumpToThis(idx);};
+				$("#p_scrl").append(imgSpan);
+				$("#p_scrl").append(document.createTextNode(' '));
+			});
+			var spanSpan = document.createElement("span");
+			spanSpan.innerHtml = "  &nbsp;  ";
+			$("#p_scrl").append(spanSpan);
+			stopGallery();
+			if ($.browser.chrome){
+				if (originalFootTop == null) originalFootTop = parseInt($("#foot").css("top").split("px")[0]);
+				$("#foot").css("top", originalFootTop + 708); 
+			}
+	 		$("#p_exp").slideDown();
+	 		reloadGallery();
+	 		 $('html, body').animate({scrollTop:200}, 'slow');
+		}
+		
+		function initDocument() {
+			$("#portfolio_menu_option").addClass("current_page");
+			$("#@{typeId}_menu_option").addClass("current_page");
+			var pos = [346, 520, 691];
+			// correctly adjust p_cnt 
+			$("#p_cnt").css("height", pos[@{math.ceil(listProjects.length / 4.0)} - 1]);
+			
+			$('.clickable_project_listing').find('#this_mask').stop().fadeTo(300, 0);
+	 		$("#p_exp").hide();
+
+			$('.clickable_project_listing').hover(
+				function() {
+					$(this).find('#this_mask').stop().fadeTo(300, 1);
+					$(this).css('cursor','pointer');
+				},
+				function() {
+					$(this).find('#this_mask').stop().fadeTo(300, 0);
+					$(this).css('cursor','auto');
+				}
+			 );
+			 
+			$("#p_cl").click(
+			 	function(){
+					stopGallery();
+			 		$("#p_exp").slideUp(function(){
+						if ($.browser.chrome){
+							$("#foot").css("top", parseInt($("#foot").css("top").split("px")[0]) - 708); 
+						}
+			 		});
+			 		$('html, body').animate({scrollTop:0}, 'slow');
+			 	}
+			);
+
+			$(".clickable_project_listing").click(
+			 	function(){
+					$(this).find('img').each(function(index) {
+						expandProject($(this).attr('id'));
+					});
+			 	}
+			);
+			
+			/*
+			if ($.browser.chrome){
+				$("#oc_c").css("left", "-1px");
+//				$("#p_cnt").css("left",  $("#hr_line").offset().left + 370);
+				$("#p_cnt").css("left",  parseInt($("#p_cnt").css("left").split("px")[0]) - 11);
+				$("#p_cnt").css("position", "relative");
+				$("#p_cnt").css("margin", "auto");
+			}
+			*/
+
+			// force this..
+			$("#p_tx").css("color", "#696969");
+			
+			if (bump != "") {
+				setTimeout(function(){expandProject(bump);}, 500);
+			}
+
+		}
+
+		
+
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<div id="oc_c">
+		<div id="clr" style="height:153px"></div>
+		<div id="oc_hdr">Portifólio</div>
+@* ------------------------------------------------ *@
+@* -                    header                    - *@
+@* ------------------------------------------------ *@
+		<div id="p_hdr">
+			<div id="hr_line"></div>
+			<div id="p_menu">
+				@for((projectType,idx) <- listProjectTypes.view.zipWithIndex ) {
+					<a href="/portfolio/@{projectType.id}" id="@{projectType.id}_menu_option">@projectType.name</a>
+				}
+			</div>
+			<div id="hr_line"></div>
+		</div>
+@* ------------------------------------------------ *@
+@* -               expanded content               - *@
+@* ------------------------------------------------ *@
+		<div id="p_exp">
+			<div id="p_vp">
+				<div id="p_img">
+					<img src="/assets/images/project/1/project_image.jpg">
+				</div>
+				<div id="p_ar"></div>
+				<div id="p_tx"></div>
+				<div id="p_cl">
+					<a href="#" id="portfolio_expand_close_button">
+						<img src="/assets/images/portfolio/project_expand_close_button.png">
+					</a>
+				</div>
+				<div id="p_limg">
+					<img src="/assets/images/portfolio/portfolio_image.png">
+				</div>
+				<div id="p_scrl"></div>
+				<div id="lft" onclick="backOne();"></div>
+				<div id="rgt" onclick="forwardOne();"></div>
+			</div>
+		</div>
+@* ------------------------------------------------ *@
+@* -                    content                   - *@
+@* ------------------------------------------------ *@
+		<div id="p_cnt">
+			@for((project,idx) <- listProjects.view.zipWithIndex ) {
+				<div id="p_@{idx+1}">
+					<div id="p_img" class="clickable_project_listing">
+						<span id="this_mask" class="hover_mask"></span>
+						<span class="frame_mask"></span>
+						<img id="@project.id" src="/assets/images/project/@project.id/@project.image">
+					</div>
+				</div>
+			}
+		</div>
+	</div>	
+}

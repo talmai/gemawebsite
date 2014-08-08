@@ -1,0 +1,89 @@
+@import "variables_mixin";
+@import "internal";
+@import "about";
+
+#oc_c {
+	// ----------------------------------------------------------
+	// -                    clients.scala.html                  -
+	// ----------------------------------------------------------
+
+	#ccc {
+		@extend #oc_cnt;
+		height: 593px;
+
+		#c_1 {
+			@include margin(auto);
+			@include width_info(193px, 193px, 193px);
+			position: relative;
+			height: 60px;
+			left: -361px;
+			top: -16px;
+		}
+		
+		#c_2 {
+			@extend #c_1;
+			left: -121px;
+			top: -75px;
+		}
+
+		#c_3 {
+			@extend #c_1;
+			left: 109px;
+			top: -135px;
+		}
+
+		#c_4 {
+			@extend #c_1;
+			left: 349px;
+			top: -195px;
+		}
+
+		#c_5 {
+			@extend #c_1;
+			left: -361px;
+			top: -96px;
+		}
+
+		#c_6 {
+			@extend #c_1;
+			left: -121px;
+			top: -156px;
+		}
+
+		#c_7 {
+			@extend #c_1;
+			left: 109px;
+			top: -216px;
+		}
+
+		#c_8 {
+			@extend #c_1;
+			left: 349px;
+			top: -275px;
+		}
+
+		#c_9 {
+			@extend #c_1;
+			left: -361px;
+			top: -176px;
+		}
+
+		#c_10 {
+			@extend #c_1;
+			left: -121px;
+			top: -235px;
+		}
+
+		#c_11 {
+			@extend #c_1;
+			left: 109px;
+			top: -295px;
+		}
+
+		#c_12 {
+			@extend #c_1;
+			left: 349px;
+			top: -354px;
+		}
+	}
+}

@@ -1,0 +1,263 @@
+{{define "services"}}
+{{template "header" .}}
+	<link rel="stylesheet" media="screen" href="/assets/stylesheets/services.css">
+	<script type="text/javascript">
+		var contentOption = ['design', 'branding', 'advertising', 'marketing', 'web', 'mobile'];
+		var showing = null;
+		var animationTime = 6000;
+		var updateQuoteTimeout = null;
+		
+		function initDocument() {
+			$("#services_menu_option").addClass("current_page");
+			$("#design_menu_option").addClass("current_page");
+			
+			$.each(contentOption, function(index, value) { 
+				$('div[name=' + value + ']').hide();
+			});
+			updateContent('design');
+		}
+		
+		function updateContent(name){
+			if (showing === name) return;
+			$('div[name=' + showing + ']').hide();
+			$("#" + showing + "_menu_option").removeClass("current_page");
+			showing = name;
+			var currentDiv = $('div[name=' + showing + ']');
+			currentDiv.show();
+			$("#" + showing + "_menu_option").addClass("current_page");
+			// hides all quotes
+			currentDiv.find($("div")).each(function (i, obj){ if (obj.id === "qte") $(obj).hide(); });
+			startQuoteAnimation(); // if there are multiple quotes, animates them. if not, shows just one.
+		}
+		
+		function startQuoteAnimation(){
+			var allQuotes = null;
+			allQuotes = new Array();
+			// check for multiple quotes
+			$('div[name=' + showing + ']').find($("div")).each(function (i, obj){ if (obj.id === "qte") allQuotes.push($(obj)); });
+			var selectedIdx = -1;
+			$.each(allQuotes, function(idx, value) { 
+				if (value.is(":visible")) selectedIdx = idx;
+			});
+			// none selected means it's the first time...
+			if (selectedIdx == -1) {
+				clearTimeout(updateQuoteTimeout);
+				updateQuoteTimeout = null;
+				allQuotes[0].show();
+				updateQuoteTimeout = setTimeout(startQuoteAnimation, animationTime); 
+			}
+			else {
+				if (allQuotes.length > 1) {
+					allQuotes[selectedIdx++].fadeOut(function(){
+						if (selectedIdx == allQuotes.length) selectedIdx = 0;
+						allQuotes[selectedIdx].fadeIn();
+						clearTimeout(updateQuoteTimeout);
+						updateQuoteTimeout = null;
+						updateQuoteTimeout = setTimeout(startQuoteAnimation, animationTime); 
+					});
+				}
+			}
+		}
+
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<div id="oc_c">
+		<div id="clr" style="height:153px"></div>
+		<div id="oc_hdr">Serviços</div>
+<!--
+@* ------------------------------------------------ *@
+@* -                    header                    - *@
+@* ------------------------------------------------ *@
+//-->
+		<div id="s_hdr">
+			<div id="hr_line"></div>
+			<div id="p_menu">
+				<a href="" id="design_menu_option" onclick="updateContent('design'); return false;">Design</a>
+				<a href="" id="branding_menu_option" onclick="updateContent('branding'); return false;">Branding</a>
+<!--
+				<a href="" id="advertising_menu_option" onclick="updateContent('advertising'); return false;">Publicidade</a>
+				<a href="" id="marketing_menu_option" onclick="updateContent('marketing'); return false;">Marketing</a>
+//-->
+				<a href="" id="web_menu_option" onclick="updateContent('web'); return false;">Web</a>
+				<a href="" id="mobile_menu_option" onclick="updateContent('mobile'); return false;">Aplicativo</a>
+			</div>
+			<div id="hr_line"></div>
+		</div>
+<!--
+@* ------------------------------------------------ *@
+@* -                    content                   - *@
+@* ------------------------------------------------ *@
+//-->
+		<div id="s_c" name="design">
+			<div id="tlt">
+				Design
+			</div>
+<!--
+@*
+			<div id="qte">
+				&ldquo;Design dá ao mundo algo que ele não sabia que sentia falta.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Paola Antonelli</span>
+			</div>
+			<div id="qte">
+				&ldquo;O design e a integração do som acentuam a experiência de uma marca.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Kenny Kahn</span>
+			</div>
+			<div id="qte">
+				&ldquo;Design é inteligência tornada visível.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Lou Danzigner</span>
+			</div>
+*@
+//-->
+			<div id="qte">
+				&ldquo;O bom design reside de alguma maneira na capacidade de instigar um sentido de familiaridade instantânea.&rdquo;
+				<br>
+				<span style="font-weight: normal;">John Maeda</span>
+			</div>
+			<div id="ctxt">
+				O design surgiu para ser a ferramenta a qual sua empresa utilizará em busca de um produto melhor. A partir dele, firmou-se a ideia de que &ldquo;a forma segue a função&rdquo;, ou seja, aquilo que é 
+				bem projetado do ponto de vista funcional acaba adquirindo uma forma agradável e atraindo o cliente. É um meio de agregar valor aos produtos industrializados e conquistar novos 
+				mercados, servindo como um poderoso instrumento para introduzir inovações diante da concorrência.
+				<br><br>
+				O design manifesta-se, sobretudo, através de duas qualidades: funcionalidade e estilo. O público leigo costuma associar design ao bom gosto, a algo bem-feito. 
+				Os melhores recursos que temos para descobrir o design são os nossos sentidos, principalmente os da visão e do tato, empregados no uso do produto ou serviço de sua empresa.
+			</div>
+			<!--
+			<div id="cimg" style="top: -132px"></div>
+			//-->
+		</div>
+		<div id="s_c" name="branding">
+			<div id="tlt">
+				Branding
+			</div>
+<!--
+@*
+			<div id="qte">
+				&ldquo;As marcas ajudam os consumidores a cortar caminho através do mar de escolhas disponíveis em cada categoria de produto e serviço.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Scott M. Davis</span>
+			</div>
+			<div id="qte">
+				&ldquo;O posicionamento transpõe as barreiras dos mercados saturados para criar novas oportunidades.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Lissa Reidel</span>
+			</div>
+*@
+//-->
+			<div id="qte">
+				&ldquo;A menor coisa com significado tem mais valor do que as maiores coisas sem significado.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Carl Gustav Jung</span>
+			</div>
+			<div id="ctxt">
+				Sua marca precisa de um trabalho de construção e gerenciamento junto ao mercado. A elaboração de uma marca forte para um produto, uma linha de produtos ou serviços é 
+				consequência de um relacionamento satisfatório com o mercado-alvo. Quando esta identificação positiva se torna forte o bastante, a marca passa a valer 
+				mais do que o próprio produto oferecido.
+				<br><br>
+				O <i>Branding</i> é um conjunto de práticas e técnicas que objetivam essa construção e o fortalecimento de sua marca. Sua execução não é tomada apenas 
+				por ações de Marketing que posicionam a marca e a divulgam no mercado, mas também por ações 
+				internas na empresa, transmitindo para todos os interessados, a imagem pretendida.
+			</div>
+			<!--
+			<div id="cimg" style="top: -252px"></div>
+			//-->
+		</div>
+		<div id="s_c" name="advertising">
+			<div id="tlt">
+				Publicidade
+			</div>
+			<div id="qte">
+				&ldquo;A publicidade é a vida do negócio.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Calvin Coolidge</span>
+			</div>
+			<div id="ctxt">
+				Sua empresa pode utilizar a publicidade através de diversos meios (impresso, audiovisual, internet etc.) com o objetivo de promover a venda de produtos e 
+				serviços ou de divulgar ideias e estimular novos comportamentos. Ela impulsiona o desenvolvimento industrial, o crescimento do comércio e todas 
+				as outras atividades ligadas direta ou indiretamente ao consumo.
+				<br><br>
+				A publicidade é, sobretudo, um grande meio de comunicação de massa, que tem a finalidade de fornecer 
+				informações, desenvolver atitudes e provocar ações benéficas para o anunciante. A propaganda serve para 
+				realizar tarefas da comunicação de massa com economia, velocidade e volume maiores que aqueles obtidos através de quaisquer outros meios.
+			</div>
+			<!--
+			<div id="cimg" style="top: -132px"></div>
+			//-->
+		</div>
+		<div id="s_c" name="marketing">
+			<div id="tlt">
+				Marketing
+			</div>
+			<div id="qte">
+				&ldquo;Não espere que o trabalho fale por si próprio. Mesmo as soluções mais engenhosas precisam ser vendidas.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Suzanne Young</span>
+			</div>
+<!--
+@*
+			<div id="qte">
+				&ldquo;Marketing é inspirar estudos e transpirar ideias.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Ronald Parada</span>
+			</div>
+*@
+//-->
+			<div id="ctxt">
+				A imagem que sua empresa transmite ao público é fator determinante para o seu sucesso. O Marketing utiliza um conjunto de técnicas para a comercialização e distribuição de um produto entre os 
+				diferentes consumidores, com a finalidade de satisfazer seus desejos, exigências e poder aquisitivo. Inclui a planificação, a organização, a direção e o controle das decisões 
+				sobre as linhas dos produtos, os preços, a promoção,os pontos de venda e os serviços de pós-venda.
+				<br><br>
+				Marketing é toda atividade dirigida para a satisfação das necessidades e desejos do cliente, que são satisfeitos mediante a compra de produtos ou serviços. 
+				Esta compra pode ser impulsionada por uma necessidade fisiológica (alimentação, frio) ou psicológica (status, segurança, diversão etc.). Conhecendo e 
+				estudando estas motivações, sua empresa poderá produzir bens e serviços que atendam ao público-alvo, identificando suas necessidades e criando oportunidades.
+			</div>
+			<!--
+			<div id="cimg" style="top: -192px"></div>
+			//-->
+		</div>
+		<div id="s_c" name="web">
+			<div id="tlt">
+				Web
+			</div>
+			<div id="qte">
+				&ldquo;As experiências interativas exigem pensamento não linear, interfaces convidativas e inteligência criativa.&rdquo;
+				<br>
+				<span style="font-weight: normal;">Stella Gassaway</span>
+			</div>
+			<div id="ctxt">
+				Para evitar os riscos da defasagem mercadológica, as empresas têm recorrido cada vez mais à internet e às plataformas eletrônicas, no sentido 
+				de ganhar competitividade, acompanhar tendências e analisar as estratégias dos concorrentes. O comércio eletrônico, a 
+				comunicação virtual e a divulgação de produtos e serviços na grande rede são recursos que toda empresa deve explorar, no intuito 
+				de encurtar fronteiras e atender a mercados que antes pareciam inatingíveis.
+			</div>
+			<!--
+			<div id="cimg" style="top: -92px"></div>
+			//-->
+		</div>
+		<div id="s_c" name="mobile">
+			<div id="tlt">
+				Mobile
+			</div>
+			<div id="qte">
+				&ldquo;Você pode investir muito dinheiro em tecnologia, mas ao menos que invista no design de interfaces, estará somente jogando fora o seu dinheiro.&rdquo;
+				<br>
+				<span style="font-weight: normal;">George Graves</span>
+			</div>
+			<div id="ctxt">
+				Uma máxima bastante recorrente nos últimos tempos é, sem dúvida, &ldquo;o futuro é mobile&rdquo;. Essa nova ferramenta tornou-se um dos meios de de comunicação 
+				de massa mais utilizados atualmente devido a sua aplicabilidade cotidiana e às possibilidades de interação com os clientes. A interação com o 
+				público-alvo pode ser feita, dentre outros, através de tablets, sites e publicidade geolocalizada em aplicativos móveis. 
+				<br><br>
+				O mobile  é uma ferramenta em ascensão que coloca à nossa disposição uma variada oferta, que conjugada com uma certa dose de imaginação potencializa o relacionamento direto com os 
+				clientes, publicidade, comunicação e, por fim, vendas.
+			</div>
+			<!--
+			<div id="cimg" style="top: -112px"></div>
+			//-->
+		</div>
+	</div>	
+{{template "footer" .}}
+{{end}}

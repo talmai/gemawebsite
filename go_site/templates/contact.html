@@ -1,0 +1,174 @@
+{{define "contact"}}
+{{template "header" .}}
+	<link rel="stylesheet" media="screen" href="/assets/stylesheets/about.css">
+	<script type="text/javascript">
+		function initDocument() {
+			$("#contact_menu_option").addClass("current_page");
+			$("#userMessages").hide();
+			$("#error_message").hide();
+
+			$("#submit_button").click(function(e) {
+				var name = $("#name");
+				var email = $("#email");
+				var message = $("#message");
+				var passed = true;
+
+				$("#userMessages").slideUp();
+				
+				// check the name
+				$(name).parent().removeClass("input_error");
+				if ($(name).val() === "" || (typeof name === "undefined")) {
+					passed = false;
+					$(name).parent().addClass("input_error");
+				} 
+
+				// check the message
+				$(message).parent().removeClass("input_error");
+				if ($(message).val() === "" || (typeof message === "undefined")) {
+					passed = false;
+					$(message).parent().addClass("input_error");
+				} 
+
+				//check for valid email
+				if (!validateEmail($(email).val())) {
+					$(email).parent().addClass("input_error");
+					//$(email).val("");
+					passed = false;
+				} else {
+					$(email).parent().removeClass("input_error");
+				}
+				
+				if (passed) {
+					var form = $("#submitForm");
+					form.html("");
+					form.attr('action', '/contactSubmit');
+					$('<input>').attr({type: 'hidden', name: 'name', value: $(name).val()}).appendTo(form);
+					$('<input>').attr({type: 'hidden', name: 'email', value: $(email).val()}).appendTo(form);
+					$('<input>').attr({type: 'hidden', name: 'message', value: $(message).val()}).appendTo(form);
+					
+					$(name).prop("disabled", true);
+					$(email).prop("disabled", true);
+					$(message).prop("disabled", true);
+					$("#submit_button").slideUp();
+					
+					$("#userMessages").html("Enviando sua mensagem. Favor aguardar.").slideDown();
+				
+					$.ajax({  
+					  type: "POST",  
+					  url: "/contactSubmit",
+					  dataType: "json",
+					  data: $("#submitForm").serialize(),
+					  success: function(data) {
+					  	if (data.Status === "OK") {
+							$("#formContent").slideUp(function(){
+								$("#userMessages").html("A sua mensagem foi enviada com sucesso. Em breve entraremos em contato.");
+							});
+					  	}
+					  	else {
+							$(name).prop("disabled", false);
+							$(email).prop("disabled", false);
+							$(message).prop("disabled", false);
+							$("#submit_button").slideDown();
+							$("#userMessages").html("Ocorreu um erro ao tentar enviar sua mensagem. Favor tentar novamente.");
+					  		return false;
+					  	}
+					  }  
+					});  
+					
+					return true;
+				}
+				else $("#error_message").show();
+				e.preventDefault();
+				return false;
+			});
+		}
+
+		// bind documentReady to the ready() event in jQuery
+		$(document).ready(initDocument);
+	</script>
+	<style>
+		.input {
+		    background-color: #FFFFFF;
+		    border: 1px solid #FFFFFF;
+//		    border-radius: 5px 5px 5px 5px;
+//		    box-shadow: 0 0 0 black, 0 3px 3px #FFFFFF inset;
+		    display: inline-block;
+		    height: 21px;
+		    margin-top: 5px;
+		    padding: 5px;
+		    width: 435px;
+		}
+		input[type="text"] {
+		    font-size: 14px;
+			width: 424px; 
+			height: 22px;
+			color: #8c8c8c;
+		}
+		textarea {
+		    font-size: 14px;
+			width: 424px; 
+			height: 115px; 
+			resize: none;
+			color: #8c8c8c;
+		}
+		.button_small {
+			cursor: pointer;
+		}
+
+		.input_error {
+		    border: 1px solid #990000 !important;
+		}
+		
+		.success_text {
+			color: #696969;
+		}
+
+		.error_text {
+			color: #990000;
+		}
+	</style>
+	<div id="oc_c">
+		<div id="clr" style="height:153px"></div>
+		<div id="oc_hdr">Fale Conosco</div>
+		<div id="oc_cnt" style="height: 501px">
+			<div id="ctxt" style="z-index: 12">
+				<div id="userMessages" class="success_text"></div>
+				<br>
+				<span id="formContent">
+					Nome<br>
+					<div class="input">
+						<input type="text" name="name" id="name" max-size="75">
+					</div>
+					<br><br>
+					E-mail<br>
+					<div class="input">
+						<input type="text" name="email" id="email" max-size="75">
+					</div>
+					<br><br>
+					Mensagem<br>
+					<div class="input" style="height: 124px;">
+						<textarea rows="2" cols="4" name="message" id="message" max-size="75"></textarea>
+					</div>
+					<!--
+					<div class="disclaimer_text">By submitting this form you are authorizing Gema to contact you by email.</div>
+					//-->
+					<br>
+					<br>
+					<center>
+						<div style=" margin-left: 0px; text-align: right; width: 354px;" id="submit_button" name="submit">
+							<span class="button_small">Enviar</span>
+						</div>
+						<div style="margin-top: -20px; text-align: left;">
+							<span class="error_text" id="error_message">&Eacute; necess&aacute;rio preencher todos os campos corretamente.</span>
+						</div>
+					</center>
+				</span>
+			</div>
+			<!--
+			<div id="cimg"></div>
+			//-->
+		</div>
+	</div>
+	<form id="submitForm" method="POST"></form>
+{{template "footer" .}}
+{{end}}

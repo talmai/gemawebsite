@@ -1,0 +1,70 @@
+// ---------------------------------------------------------
+// -                    variables                          -
+// ---------------------------------------------------------
+$background_color : #ebebeb;
+$orange: #f6b738;
+$white: #ffffff;
+$footer_background_color : #212121;
+$dark_grey_text : #696969;
+$light_grey_text : #8c8c8c;
+$grey_tone_001 : #2e2e2e;
+$grey_tone_002 : #3c3c3c;
+$grey_tone_003 : #535353;
+$light_grey_border : #d2d2d2;
+$portfolio_description_grey_background: #d5d5d5;
+//$headerFont: "Helvetica Neue LT Std";
+$headerFont: "Arial";
+$bodyFont: "Arial";
+
+$min_universal_nav_width : 1050;
+$floating_elements_area_left : -133;
+$view_pane_left : 525;
+
+// --------------------------------------------------------
+// -                    path variables                    -
+// --------------------------------------------------------
+$image_path : "/assets/images";
+
+// ------------------------------------------------
+// -                    mixins                    -
+// ------------------------------------------------
+@mixin margin($margin: 0px) {
+	margin: {
+		left: $margin;
+		right: $margin;
+		top: $margin;
+		bottom: $margin;
+	}
+}
+
+@mixin width_info($min_width: 100%, $max_width: 100%, $width: 100%) {
+	min-width: $min_width;
+	max-width: $max_width;
+	width: $width;
+}
+
+@mixin background($img, $pos : 0px, $repeat: no-repeat) {
+	background: {
+		image: url("#{$image_path}/#{$img}");
+		position: #{$pos};
+		repeat: $repeat;
+    }
+}
+
+// this does nothing but give the necessary spacer from the top. 
+// It helps the UI act like #nav had relative positioning. In fact,
+// notice how all following DIVs are relatively positioned instead of absolutely positioned.
+@mixin clear_nav($height: 0px) {
+//	@include margin();
+	height: $height;
+	width: 10px;
+	z-index: -30;
+/*
+breaks on Chrome and IE... ??
+	:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+*/
+}

@@ -1,0 +1,54 @@
+@import "variables_mixin";
+@import "internal";
+
+#oc_c {
+	// ----------------------------------------------------------
+	// -                    about.scala.html                    -
+	// ----------------------------------------------------------
+
+	#oc_cnt {
+		@include margin();
+		height: 427px;
+		position: relative;
+		top: 37px;
+
+		#qte {
+			@include margin(auto);
+			@include width_info(540px, 540px, 540px);
+			position: relative;
+			left: -202px;
+			font: {
+				size: 14px;
+				weight: bold;
+				style: italic;
+			}
+			line-height: 20px;
+			color: $dark_grey_text;
+		}
+		
+		#ctxt {
+			@extend #qte;
+			font: {
+				size: 14px;
+				weight: normal;
+				style: normal;
+			}
+			left: -200px;
+			top: 12px;
+		}
+
+		#cimg {
+			@extend #ctxt;
+			@include width_info(340px, 340px, 340px);
+			left: 290px;
+			top: -300px;
+			height: 280px;
+			border: {
+				width: 10px;
+				style: solid;
+				color: $light_grey_border;
+			}
+		}
+	}
+	
+}
